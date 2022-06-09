@@ -8,6 +8,8 @@ app.use(cors())
 
 app.use(express.json())
 
+app.use(express.static('build'))
+
 morgan.token('data', function (req, res) {
   return req.method === 'POST' ? JSON.stringify(req.body) : ""
 })
