@@ -48,27 +48,43 @@ app.get('/api/persons', (request, response) => {
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
-  const duplicateName = persons.some (person => person.name === body.name)
-
-  if (!body.name || !body.number) {
-    return response.status(400).json({ 
-      error: 'name or number missing' 
-    })
-  } else if (duplicateName) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
+  if ((body.name || body.number) === undefined) {
+    return response.status(400).json({ error: 'name or number missing' })
   }
 
-  const newPerson = {
-    id: generateId(5, 10000),
+  const person = new Person({
     name: body.name,
     number: body.number
-  }
+  })
 
-  persons = persons.concat(newPerson)
+  person.save()
+    .then(savedPerson => {
+      response.json(savedPerson)
+    })
 
-  response.json(newPerson)
+  // const body = request.body
+
+  // const duplicateName = persons.some (person => person.name === body.name)
+
+  // if (!body.name || !body.number) {
+  //   return response.status(400).json({ 
+  //     error: 'name or number missing' 
+  //   })
+  // } else if (duplicateName) {
+  //   return response.status(400).json({
+  //     error: 'name must be unique'
+  //   })
+  // }
+
+  // const newPerson = {
+  //   id: generateId(5, 10000),
+  //   name: body.name,
+  //   number: body.number
+  // }
+
+  // persons = persons.concat(newPerson)
+
+  // response.json(newPerson)
 })
 
 app.get('/api/persons/:id', (request, response) => {
