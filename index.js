@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(express.static('build'))
 
 morgan.token('data', function (req, res) {
-  return req.method === 'POST' ? JSON.stringify(req.body) : ""
+  return req.method === 'POST' ? JSON.stringify(req.body) : ''
 })
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
@@ -46,7 +46,7 @@ app.get('/api/persons', (request, response) => {
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-  
+
   if (!body.name) {
     return response.status(400).json({ error: 'name missing' })
   }
@@ -81,7 +81,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
   Person.findByIdAndRemove(id)
-    .then( result => {
+    .then(result => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -96,12 +96,12 @@ app.put('/api/persons/:id', (request, response, next) => {
   }
 
   Person.findByIdAndUpdate(
-      request.params.id,
-      person,
-      { new: true, runValidators: true, context: 'query' }
-      )
+    request.params.id,
+    person,
+    { new: true, runValidators: true, context: 'query' }
+  )
     .then(updatePerson => {
-        response.json(updatePerson)
+      response.json(updatePerson)
     })
     .catch(error => next(error))
 })

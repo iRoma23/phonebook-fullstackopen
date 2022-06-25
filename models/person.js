@@ -20,10 +20,10 @@ const lengthValidation = number => {
     }
   }
   if (number.length < 8) {
-      return false
-    } else {
-      return true
-    } 
+    return false
+  } else {
+    return true
+  }
 }
 
 const regexValidation = number => /^[0-9]{2,3}-[0-9]+$/.test(number) || /^[0-9]{8,}$/.test(number)
